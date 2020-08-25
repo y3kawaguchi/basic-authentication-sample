@@ -11,15 +11,15 @@ const (
 )
 
 func main() {
-	http.HandleFunc("/basic",
+	http.HandleFunc("/basicAuth",
 		func(w http.ResponseWriter, r *http.Request) {
 			if user, pass, ok := r.BasicAuth(); !ok || user != basicAuthUser || pass != basicAuthPassword {
 				w.Header().Add("WWW-Authenticate", `Basic realm="my private area"`)
-				w.WriteHeader(http.StatusUnauthorized) // 401
-				http.Error(w, "Not authorized", 401)
+				w.WriteHeader(http.StatusUnauthorized)
+				http.Error(w, "Unauthorized", 401)
 				return
 			}
-			fmt.Fprintf(w, "Authed!!")
+			fmt.Fprintf(w, "Authorized")
 		},
 	)
 	http.ListenAndServe(":18888", nil)
